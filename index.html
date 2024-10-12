@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Art Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    
+    <div id="welcomeOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.9); display:flex; justify-content:center; align-items:center;">
+        <button onclick="startWelcome()" style="font-size:24px; padding:10px 20px; border-radius: 30px; background-color:rgba(42, 157, 215, 0.882) ; font-weight: bold;">Click here to Enter into the website</button>
+    </div>
+    <header>
+        <h1>My Art Gallery</h1>
+    </header>
+
+    <section class="gallery">
+        <div class="artwork">
+            <h1><a href="civilization01.html"> Exam: Civilization-01</a> </h1>
+        </div>
+        <div class="artwork">
+            <h1> exam </h1>
+        </div>
+        <div class="artwork">
+          <h1> exam sovvota </h1>  
+        </div>
+        <div class="artwork">
+         <h1> exam sovvota </h1>   
+        </div>
+        <!-- Add more artwork as needed -->
+    </section>
+
+   
+
+    <script>
+        function speakWelcome() {
+            const welcomeMessage = "Welcome, buddy!";
+            const speech = new SpeechSynthesisUtterance(welcomeMessage);
+
+            // Set voice, pitch, rate, and volume if needed
+            speech.pitch = 1;
+            speech.rate = 1;
+            speech.volume = 1;
+
+            window.speechSynthesis.speak(speech);
+        }
+
+        function startWelcome() {
+            document.getElementById('welcomeOverlay').style.display = 'none';
+            speakWelcome();
+        }
+    </script>
+
+    <footer>
+        <p>&copy; 2024 My Art Gallery</p>
+    </footer>
+</body>
+</html>
