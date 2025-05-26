@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Uttara University CSE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+            overflow: hidden; /* Hide overflow for falling names */
+            position: relative;
+        }
+
+        .name-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks to pass through */
+            overflow: hidden;
+            z-index: 20; /* Ensure falling names are IN FRONT of the main content */
+        }
+
+        .falling-name {
+            position: absolute;
+            color: rgba(255, 100, 100, 0.9); /* Light red with high opacity */
+            background-color: rgba(173, 216, 230, 0.4); /* Light blue background with less opacity */
+            padding: 0.3rem 0.6rem; /* Add some padding for the background */
+            border-radius: 20px; /* Increased border-radius for more rounded corners */
+            font-size: 1.5rem;
+            font-weight: 600;
+            opacity: 0;
+            animation: fall linear forwards;
+            white-space: nowrap; /* Prevent names from wrapping */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Subtle text shadow for readability */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) translateX(var(--start-x)) rotate(0deg);
+                opacity: 0;
+            }
+            25% {
+                transform: translateY(25vh) translateX(calc(var(--start-x) + var(--sway-amount))) rotate(var(--rotate-deg-1));
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(50vh) translateX(calc(var(--start-x) - var(--sway-amount))) rotate(var(--rotate-deg-2));
+                opacity: 1;
+            }
+            75% {
+                transform: translateY(75vh) translateX(calc(var(--start-x) + var(--sway-amount))) rotate(var(--rotate-deg-3));
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) translateX(var(--start-x)) rotate(var(--rotate-deg-final));
+                opacity: 0;
+            }
+        }
+
+        /* Custom styling for the main content box */
+        .main-content-box {
+            background-color: rgba(255, 255, 255, 0.85); /* Slightly transparent white */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Softer border */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Increased shadow */
+        }
+
+        /* Custom styling for buttons on hover/focus */
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02); /* More pronounced lift and slight scale */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-3px) scale(1.02); /* More pronounced lift and slight scale */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="name-container" id="nameContainer"></div>
+
+    <div class="relative z-10 w-full max-w-2xl p-8 md:p-12 rounded-xl text-center transform transition-all duration-300 ease-in-out scale-95 md:scale-100 main-content-box">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-purple-800 mb-4 animate-pulse">
+            Welcome to Uttara University
+        </h1>
+        <h2 class="text-2xl md:text-3xl font-semibold text-indigo-700 mb-8">
+            CSE Department
+        </h2>
+
+        <p class="text-xl md:text-2xl text-gray-700 mb-8">
+            Are you a student of CSE 64 batch of Uttara University?
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <button
+                id="yesButton"
+                class="btn-primary bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-green-300"
+            >
+                Yes
+            </button>
+            <button
+                id="noButton"
+                class="btn-secondary bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-red-300"
+            >
+                No
+            </button>
+        </div>
+
+        <div id="message" class="text-center text-lg font-medium mt-8">
+            </div>
+    </div>
+
+    <script>
+        // Your provided list of classmate names
+        const classmateNames = [
+            "Mahmadul", "Radone", "Aayan", "Black Hole", "Fatema", "Happy",
+            "Eva-Bandhupi", "Jony", "Jehad", "Maruf", "Sakib", "Antor",
+            "Mou", "Mr. Universe", "Shohag", "Ontik", "Rakib", "Sabbir",
+            "Sadman", "Tareq", "Towfik", "Sadaf", "Protiva", "Antora",
+            "Nil", "Rejwan", "lacky"
+        ];
+
+        const nameContainer = document.getElementById('nameContainer');
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const messageDiv = document.getElementById('message');
+
+        // Function to create and animate a single falling name
+        function createFallingName() {
+            const name = classmateNames[Math.floor(Math.random() * classmateNames.length)];
+            const nameElement = document.createElement('div');
+            nameElement.textContent = name;
+            nameElement.classList.add('falling-name');
+
+            // Randomize starting position (left) and animation duration
+            const startX = Math.random() * (window.innerWidth - 100); // -100 to keep within bounds
+            const duration = Math.random() * 8 + 5; // 5 to 13 seconds
+            const delay = 0; // Changed delay to 0 for no initial delay
+
+            // Randomize sway amount and rotation degrees for a more natural leaf-like fall
+            const swayAmount = Math.random() * 80 + 20; // 20 to 100px horizontal sway
+            const rotateDeg1 = Math.random() * 360 - 180; // -180 to 180 degrees
+            const rotateDeg2 = Math.random() * 360 - 180;
+            const rotateDeg3 = Math.random() * 360 - 180;
+            const rotateDegFinal = Math.random() * 720 - 360; // More rotation at the end
+
+            nameElement.style.left = `${startX}px`;
+            nameElement.style.animationDuration = `${duration}s`;
+            nameElement.style.animationDelay = `${delay}s`;
+
+            // Set CSS variables for animation keyframes
+            nameElement.style.setProperty('--start-x', `${startX}px`);
+            nameElement.style.setProperty('--sway-amount', `${swayAmount}px`);
+            nameElement.style.setProperty('--rotate-deg-1', `${rotateDeg1}deg`);
+            nameElement.style.setProperty('--rotate-deg-2', `${rotateDeg2}deg`);
+            nameElement.style.setProperty('--rotate-deg-3', `${rotateDeg3}deg`);
+            nameElement.style.setProperty('--rotate-deg-final', `${rotateDegFinal}deg`);
+
+            nameContainer.appendChild(nameElement);
+
+            // Remove the element after its animation finishes to prevent DOM clutter
+            nameElement.addEventListener('animationend', () => {
+                nameElement.remove();
+            });
+        }
+
+        // Generate falling names at intervals
+        setInterval(createFallingName, 500); // Create a new name every 0.5 seconds
+
+        // Event listener for the "Yes" button
+        yesButton.addEventListener('click', function() {
+            messageDiv.textContent = "Great! Redirecting you now...";
+            messageDiv.className = "text-center text-green-600 text-lg font-medium mt-8";
+
+            // --- REDIRECT TO THE PROTECTED WEBPAGE ---
+            // IMPORTANT: Replace 'YOUR_PROTECTED_WEBPAGE_URL_HERE.html' with the actual URL
+            // of the webpage you want to redirect to.
+            window.location.href = 'login.html';
+        });
+
+        // Event listener for the "No" button
+        noButton.addEventListener('click', function() {
+            messageDiv.textContent = "Sorry, you are not allowed here.";
+            messageDiv.className = "text-center text-red-600 text-lg font-medium mt-8";
+            // Optionally, you could disable the buttons or redirect to a different page here
+            yesButton.disabled = true;
+            noButton.disabled = true;
+            yesButton.classList.add('opacity-50', 'cursor-not-allowed');
+            noButton.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+    </script>
+</body>
+</html>
