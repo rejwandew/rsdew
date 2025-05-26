@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Hub - Notices</title>
+    <script src="https://cdn.tailwindcss.com">
+
+
+
+    // IMPORTANT: Replace 'your-login-page-url.html' with the actual URL of your login page.
+    // For example: 'https://your-domain.com/login.html'
+    const loginPageURL = 'index.html';
+
+    // Check if the user is "logged in" by looking for a flag in localStorage.
+    // Your login page needs to set this flag upon successful login.
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+    // If the 'isLoggedIn' flag is not set to 'true', redirect to the login page.
+    if (isLoggedIn !== 'true') {
+        window.location.href = loginPageURL;
+    }
+
+    // --- Optional: Add a logout function to your protected page ---
+    // You can call this function from a logout button on your existing page.
+    function logout() {
+        localStorage.removeItem('isLoggedIn'); // Remove the login flag
+        window.location.href = loginPageURL; // Redirect back to the login page
+    }
+
+
+    </script>
+    <style>
+        /* Custom styles for the Inter font and general body */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            /* Light background for the whole page */
+        }
+
+        /* Active navigation link styling */
+        .nav-link.active {
+            font-weight: bold;
+            color: #4f46e5;
+            /* Indigo-600 */
+            /* Corrected line using @apply: */
+            border-bottom-width: 2px;
+            border-bottom-color: #4f46e5;
+            /* No colon needed here, it's a special directive */
+        }
+
+        /* Basic card styling for content */
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 0.15rem;
+            /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            /* shadow-lg */
+            padding: 1.5rem;
+            /* p-6 */
+            margin-bottom: 1.5rem;
+            /* mb-6 */
+        }
+
+        /* Specific colors for different content types (optional, for visual distinction) */
+        .update-card {
+            border-left: 4px solid #10b981;
+            /* Green-500 */
+        }
+
+        .announcement-card {
+            border-left: 4px solid #f97316;
+            /* Orange-500 */
+        }
+
+        .notice-card {
+            border-left: 4px solid #3b82f6;
+            /* Blue-500 */
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100">
+
+    <header class="w-full max-w-4xl bg-white shadow-lg rounded-xl p-6 mb-8 text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-2">
+            Class Hub - CSE 64<br>Sec(D)
+        </h1>
+        <p class="text-lg text-gray-600">
+            Your central place for updates, announcements, and notices.
+        </p>
+    </header>
+
+    <nav class="w-full max-w-4xl bg-white shadow-lg rounded-xl p-4 mb-8 flex justify-center space-x-4 sm:space-x-8">
+        <a href="uttara.html"
+            class="nav-link text-gray-700 hover:text-indigo-600 text-lg sm:text-xl transition duration-300 ease-in-out p-2 rounded-md">Home</a>
+        <a href="updates.html"
+            class="nav-link text-gray-700 hover:text-indigo-600 text-lg sm:text-xl transition duration-300 ease-in-out p-2 rounded-md">Updates</a>
+        <a href="announcements.html"
+            class="nav-link text-gray-700 hover:text-indigo-600 text-lg sm:text-xl transition duration-300 ease-in-out p-2 rounded-md">Announcements</a>
+        <a href="notices.html"
+            class="nav-link text-gray-700 hover:text-indigo-600 text-lg sm:text-xl transition duration-300 ease-in-out p-2 rounded-md">Notices</a>
+    </nav>
+
+  <main class="w-full max-w-4xl bg-white shadow-lg rounded-xl p-6">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Notices</h2>
+
+    <div class="content-card notice-card">
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+            </h3>
+        <p class="text-gray-700 mb-2">Date: </p>
+        <p class="text-gray-700 whitespace-pre-wrap">
+            </p>
+    </div>
+
+    <div class="content-card notice-card">
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+            </h3>
+        <p class="text-gray-700 mb-2">Date: </p>
+        <p class="text-gray-700 whitespace-pre-wrap">
+            </p>
+    </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPath = window.location.pathname.split('/').pop(); // Get the current file name (e.g., 'index.html')
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href').split('/').pop();
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
